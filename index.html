@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文字许愿机</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{
+  min-height:100vh;
+  background:#0f172a;
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:40px 20px;
+}
+h1{margin-bottom:24px;font-size:28px;color:#e0e7ff}
+.container{
+  background:#1e293b;
+  padding:24px;
+  border-radius:16px;
+  width:100%;
+  max-width:500px;
+}
+#wishInput{
+  width:100%;
+  padding:12px 14px;
+  border-radius:8px;
+  border:none;
+  font-size:16px;
+  outline:none;
+  margin-bottom:16px;
+}
+.btns{display:flex;gap:12px}
+button{
+  flex:1;
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+  cursor:pointer;
+}
+#sendBtn{background:#818cf8;color:#fff}
+#resetBtn{background:#475569;color:#fff}
+#tip{margin:16px 0;color:#bfdbfe;height:22px;text-align:center}
+#canvasBox{
+  width:100%;
+  height:320px;
+  margin-top:20px;
+  border-radius:12px;
+  background:#0f172a;
+  position:relative;
+  overflow:hidden;
+}
+.particle{
+  position:absolute;
+  color:#fef08a;
+  white-space:nowrap;
+  animation:floatUp 4s ease-out forwards;
+}
+@keyframes floatUp{
+  0{bottom:0;opacity:1;transform:scale(1)}
+  100{bottom:320px;opacity:0;transform:scale(1.2)}
+}
+</style>
+</head>
+<body>
+<h1>✨ 文字许愿机</h1>
+<div class="container">
+  <input id="wishInput" placeholder="在这里写下你的心愿……">
+  <div class="btns">
+    <button id="sendBtn">发送愿望</button>
+    <button id="resetBtn">重置</button>
+  </div>
+  <div id="tip"></div>
+</div>
+<div id="canvasBox"></div>
+
+<script>
+const input = document.getElementById('wishInput');
+const sendBtn = document.getElementById('sendBtn');
+const resetBtn = document.getElementById('resetBtn');
+const tip = document.getElementById('tip');
+const box = document.getElementById('canvasBox');
+
+const replies = [
+  "愿这份心愿慢慢开花。",
+  "慢慢来，一切都会如期而至。",
+  "心怀期待，本身就是一件美好的事。",
+  "把愿望交给星光吧。",
+  "祝你所愿，皆有回响。"
+];
+
+sendBtn.onclick = ()=>{
+  const wish = input.value.trim();
+  // 异常处理：空输入判断
+  if(!wish){
+    tip.textContent = "请不要发送空白愿望哦";
+    return;
+  }
+  tip.textContent = replies[Math.floor(Math.random()*replies.length)];
+  createParticle(wish);
+  input.value = "";
+}
+
+resetBtn.onclick = ()=>{
+  input.value = "";
+  tip.textContent = "";
+  box.innerHTML = "";
+}
+
+function createParticle(text){
+  const p = document.createElement('div');
+  p.className = "particle";
+  p.innerText = text;
+  p.style.left = Math.random()*(box.offsetWidth - 120)+"px";
+  box.appendChild(p);
+  setTimeout(()=>p.remove(),4000);
+}
+</script>
+</body>
+</html>
