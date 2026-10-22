@@ -1,186 +1,434 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Answer Oracle</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
-body{
-  min-height:100vh;
-  background:#0b0f1a;
-  color:#fff;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:40px 20px;
-}
-h1{
-  margin-bottom:24px;
-  font-size:32px;
-  color:#c4b5fd;
-  letter-spacing:2px;
-}
-.container{
-  background:#171e35;
-  padding:28px;
-  border-radius:20px;
-  width:100%;
-  max-width:520px;
-  box-shadow: 0 0 30px #7c3aed44;
-}
-#questionInput{
-  width:100%;
-  padding:14px 16px;
-  border-radius:10px;
-  border:none;
-  font-size:16px;
-  outline:none;
-  margin-bottom:18px;
-  background:#242d48;
-  color:#fff;
-}
-#questionInput::placeholder{
-  color:#a5b4fc;
-}
-.btns{display:flex;gap:14px}
-button{
-  flex:1;
-  padding:14px;
-  border:none;
-  border-radius:10px;
-  font-size:16px;
-  font-weight:500;
-  cursor:pointer;
-  transition: 0.2s;
-}
-#askBtn{
-  background:#8b5cf6;
-  color:#fff;
-}
-#askBtn:hover{
-  background:#7c3aed;
-  box-shadow:0 0 15px #8b5cf680;
-}
-#resetBtn{
-  background:#334155;
-  color:#fff;
-}
-#resetBtn:hover{
-  background:#475569;
-}
-#hint{
-  margin:20px 0 8px;
-  color:#ddd6fe;
-  text-align:center;
-  min-height:24px;
-}
-#stage{
-  width:100%;
-  height:340px;
-  margin-top:20px;
-  border-radius:16px;
-  background:#0f1629;
-  position:relative;
-  overflow:hidden;
-}
-/* 炸开飘散特效 */
-.particle{
-  position:absolute;
-  color:#f0abfc;
-  font-weight:500;
-  white-space:nowrap;
-  animation: burst 2.2s ease-out forwards;
-}
-@keyframes burst{
-  0%{
-    opacity:1;
-    transform: translate(0,0) scale(1);
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", system-ui, sans-serif;
   }
-  100%{
-    opacity:0;
-    transform: translate(var(--tx), var(--ty)) scale(0.25);
+
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.35), transparent 40%),
+      radial-gradient(circle at 80% 10%, rgba(236, 72, 153, 0.25), transparent 45%),
+      radial-gradient(circle at 50% 90%, rgba(56, 189, 248, 0.35), transparent 40%),
+      #05060f;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    overflow-x: hidden;
   }
-}
+
+  h1 {
+    font-size: 34px;
+    letter-spacing: 4px;
+    color: #fff;
+    text-shadow:
+      0 0 10px #a78bfa,
+      0 0 20px #ec4899,
+      0 0 40px #8b5cf6;
+    margin-bottom: 28px;
+  }
+
+  .container {
+    background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 28px;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 540px;
+    box-shadow:
+      0 0 30px rgba(139, 92, 246, 0.35),
+      0 10px 40px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+  }
+
+  #questionInput {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    margin-bottom: 18px;
+    transition: 0.25s;
+  }
+
+  #questionInput:focus {
+    border-color: #a78bfa;
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.35);
+  }
+
+  #questionInput::placeholder {
+    color: #a5b4fc;
+  }
+
+  .btns {
+    display: flex;
+    gap: 14px;
+  }
+
+  button {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+    color: white;
+  }
+
+  #askBtn {
+    background: linear-gradient(135deg, #8b5cf6, #ec4899);
+    box-shadow: 0 10px 25px rgba(139, 92, 246, 0.45);
+  }
+
+  #askBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(236, 72, 153, 0.55);
+  }
+
+  #resetBtn {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  #resetBtn:hover {
+    background: rgba(255,255,255,0.14);
+  }
+
+  #hint {
+    margin-top: 20px;
+    text-align: center;
+    min-height: 24px;
+    color: #ddd6fe;
+    font-size: 15px;
+    letter-spacing: 1px;
+  }
+
+  #stage {
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+    height: 380px;
+    margin-top: 24px;
+    border-radius: 24px;
+    background:
+      radial-gradient(circle at center, rgba(99, 102, 241, 0.25), transparent 60%),
+      rgba(10, 12, 30, 0.9);
+    border: 1px solid rgba(255,255,255,0.1);
+    overflow: hidden;
+    box-shadow: inset 0 0 60px rgba(139, 92, 246, 0.25);
+  }
+
+  #stage::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px) 0 0 / 40px 40px,
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px) 0 0 / 40px 40px;
+    pointer-events: none;
+    mask-image: radial-gradient(circle at center, black 40%, transparent 75%);
+  }
+
+  .center-glow {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff 0%, #a78bfa 25%, #ec4899 50%, transparent 70%);
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    animation: centerGlow 0.9s ease-out forwards;
+    pointer-events: none;
+  }
+
+  .ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 50%;
+    border: 2px solid rgba(167, 139, 250, 0.8);
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0;
+    animation: ringExpand 1.4s ease-out forwards;
+    pointer-events: none;
+  }
+
+  .ring.pink {
+    border-color: rgba(236, 72, 153, 0.8);
+    animation-delay: 0.15s;
+  }
+
+  .ring.blue {
+    border-color: rgba(56, 189, 248, 0.8);
+    animation-delay: 0.3s;
+  }
+
+  .char {
+    position: absolute;
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow:
+      0 0 8px #a78bfa,
+      0 0 16px #ec4899,
+      0 0 24px #8b5cf6;
+    white-space: nowrap;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.3);
+    animation: charFly 1.8s cubic-bezier(.2,.7,.3,1) forwards;
+  }
+
+  .particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #fde68a;
+    box-shadow: 0 0 12px #f472b6, 0 0 24px #a78bfa;
+    pointer-events: none;
+    animation: particleFly 2s ease-out forwards;
+  }
+
+  .trail {
+    position: absolute;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.6), transparent);
+    transform-origin: left center;
+    pointer-events: none;
+    animation: trailFade 1.6s linear forwards;
+  }
+
+  .answer-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #fff;
+    text-align: center;
+    padding: 18px 28px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(139,92,246,0.35), rgba(236,72,153,0.35));
+    border: 1px solid rgba(255,255,255,0.25);
+    opacity: 0;
+    animation: answerShow 2s ease-out forwards;
+    pointer-events: none;
+  }
+
+  @keyframes centerGlow {
+    0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0; }
+    30% { opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1.4); opacity: 0; }
+  }
+
+  @keyframes ringExpand {
+    0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0.9; }
+    100% { transform: translate(-50%, -50%) scale(2.4); opacity: 0; }
+  }
+
+  @keyframes charFly {
+    0% {
+      transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--tx), var(--ty)) scale(1.1) rotate(var(--rot));
+      opacity: 0;
+    }
+  }
+
+  @keyframes particleFly {
+    0% {
+      transform: translate(-50%, -50%) scale(0.5);
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--px), var(--py)) scale(0.2);
+      opacity: 0;
+    }
+  }
+
+  @keyframes trailFade {
+    0% { opacity: 0.8; }
+    100% { opacity: 0; }
+  }
+
+  @keyframes answerShow {
+    0% { transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
+    40% { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
+    70% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+  }
 </style>
 </head>
+
 <body>
-<h1>🔮 Answer Oracle</h1>
-<div class="container">
-  <input id="questionInput" placeholder="Type your question here...">
-  <div class="btns">
-    <button id="askBtn">Ask & Reveal</button>
-    <button id="resetBtn">Reset</button>
+  <h1>🔮 Answer Oracle</h1>
+
+  <div class="container">
+    <input id="questionInput" placeholder="Type your question here..." />
+    <div class="btns">
+      <button id="askBtn">Ask & Reveal</button>
+      <button id="resetBtn">Reset</button>
+    </div>
+    <div id="hint"></div>
   </div>
-  <div id="hint"></div>
-</div>
-<div id="stage"></div>
+
+  <div id="stage"></div>
 
 <script>
-const input = document.getElementById('questionInput');
-const askBtn = document.getElementById('askBtn');
-const resetBtn = document.getElementById('resetBtn');
-const hint = document.getElementById('hint');
-const stage = document.getElementById('stage');
+  const input = document.getElementById("questionInput");
+  const askBtn = document.getElementById("askBtn");
+  const resetBtn = document.getElementById("resetBtn");
+  const hint = document.getElementById("hint");
+  const stage = document.getElementById("stage");
 
-// 随机预言回答库，可以自己增删
-const answers = [
-  "Yes, the odds are in your favour.",
-  "Not right now, wait a little longer.",
-  "Trust your intuition, it will guide you.",
-  "The path ahead is full of surprises.",
-  "It may be harder than you expect.",
-  "Absolutely, keep moving forward.",
-  "Uncertain at this moment, try again later.",
-  "What you seek will come in time.",
-  "Do not hesitate, take the chance.",
-  "Better to hold back for now."
-];
+  const answers = [
+    "Yes, the odds are in your favour.",
+    "Not right now, wait a little longer.",
+    "Trust your intuition, it will guide you.",
+    "The path ahead is full of surprises.",
+    "It may be harder than you expect.",
+    "Absolutely, keep moving forward.",
+    "Uncertain at this moment, try again later.",
+    "What you seek will come in time.",
+    "Do not hesitate, take the chance.",
+    "Better to hold back for now."
+  ];
 
-askBtn.onclick = ()=>{
-  const q = input.value.trim();
-  if(!q){
-    hint.textContent = "Please type your question first!";
-    return;
+  askBtn.addEventListener("click", () => {
+    const question = input.value.trim();
+
+    if (!question) {
+      hint.textContent = "Please type your question first!";
+      return;
+    }
+
+    hint.textContent = "The oracle is thinking...";
+    stage.innerHTML = "";
+
+    setTimeout(() => {
+      const answer = answers[Math.floor(Math.random() * answers.length)];
+      startComplexEffect(answer);
+      hint.textContent = "✨ " + answer;
+      input.value = "";
+    }, 700);
+  });
+
+  resetBtn.addEventListener("click", () => {
+    input.value = "";
+    hint.textContent = "";
+    stage.innerHTML = "";
+  });
+
+  function startComplexEffect(answer) {
+    const rect = stage.getBoundingClientRect();
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+
+    // 1. 中心光晕
+    const glow = document.createElement("div");
+    glow.className = "center-glow";
+    stage.appendChild(glow);
+
+    // 2. 多层扩散光圈
+    for (let i = 0; i < 3; i++) {
+      const ring = document.createElement("div");
+      ring.className = "ring " + (i === 1 ? "pink" : i === 2 ? "blue" : "");
+      ring.style.width = (120 + i * 70) + "px";
+      ring.style.height = (120 + i * 70) + "px";
+      stage.appendChild(ring);
+    }
+
+    // 3. 文字字符飞散
+    const chars = answer.split("");
+    chars.forEach((ch, i) => {
+      const span = document.createElement("span");
+      span.className = "char";
+      span.textContent = ch === " " ? "\u00A0" : ch;
+
+      const angle = (Math.PI * 2 / chars.length) * i + Math.random() * 0.5;
+      const dist = 110 + Math.random() * 160;
+      const tx = Math.cos(angle) * dist;
+      const ty = Math.sin(angle) * dist;
+      const rot = (Math.random() * 720 - 360) + "deg";
+
+      span.style.setProperty("--tx", tx + "px");
+      span.style.setProperty("--ty", ty + "px");
+      span.style.setProperty("--rot", rot);
+      stage.appendChild(span);
+    });
+
+    // 4. 彩色粒子爆发
+    const colors = ["#f472b6", "#a78bfa", "#38bdf8", "#fde68a", "#34d399"];
+    for (let i = 0; i < 40; i++) {
+      const p = document.createElement("div");
+      p.className = "particle";
+
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 140 + Math.random() * 200;
+      const px = Math.cos(angle) * dist;
+      const py = Math.sin(angle) * dist;
+
+      p.style.setProperty("--px", px + "px");
+      p.style.setProperty("--py", py + "px");
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.left = cx + "px";
+      p.style.top = cy + "px";
+      stage.appendChild(p);
+    }
+
+    // 5. 拖光线条
+    for (let i = 0; i < 14; i++) {
+      const trail = document.createElement("div");
+      trail.className = "trail";
+
+      const angle = (Math.PI * 2 / 14) * i;
+      const length = 90 + Math.random() * 120;
+
+      trail.style.width = length + "px";
+      trail.style.left = cx + "px";
+      trail.style.top = cy + "px";
+      trail.style.transform = `rotate(${angle}rad)`;
+      stage.appendChild(trail);
+    }
+
+    // 6. 最终答案卡片出现
+    setTimeout(() => {
+      const box = document.createElement("div");
+      box.className = "answer-text";
+      box.textContent = answer;
+      stage.appendChild(box);
+    }, 900);
   }
-  hint.textContent = "The oracle speaks...";
-  const picked = answers[Math.floor(Math.random() * answers.length)];
-  createBurstText(picked);
-  input.value = "";
-}
-
-resetBtn.onclick = ()=>{
-  input.value = "";
-  hint.textContent = "";
-  stage.innerHTML = "";
-}
-
-// 炸开特效函数
-function createBurstText(text){
-  stage.innerHTML = "";
-  const cx = stage.clientWidth / 2;
-  const cy = stage.clientHeight / 2;
-
-  // 拆成单个字符，向不同方向飞出去
-  for(let i=0; i < text.length; i++){
-    const span = document.createElement('span');
-    span.className = "particle";
-    span.innerText = text[i];
-
-    // 随机方向、距离
-    const angle = (Math.PI * 2 / text.length) * i + Math.random()*0.4;
-    const dist = 60 + Math.random() * 130;
-    const tx = Math.cos(angle) * dist;
-    const ty = Math.sin(angle) * dist - 80;
-
-    span.style.setProperty('--tx', tx + "px");
-    span.style.setProperty('--ty', ty + "px");
-    span.style.left = cx + "px";
-    span.style.top = cy + "px";
-    span.style.transform = "translate(-50%,-50%)";
-    stage.appendChild(span);
-  }
-}
 </script>
 </body>
 </html>
+
