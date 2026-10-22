@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Answer Oracle</title>
+<title>Mystic Oracle</title>
 <style>
   * {
     margin: 0;
@@ -15,10 +15,10 @@
   body {
     min-height: 100vh;
     background:
-      radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.35), transparent 40%),
-      radial-gradient(circle at 80% 10%, rgba(236, 72, 153, 0.25), transparent 45%),
-      radial-gradient(circle at 50% 90%, rgba(56, 189, 248, 0.35), transparent 40%),
-      #05060f;
+      radial-gradient(circle at 20% 10%, rgba(168, 85, 247, 0.45), transparent 40%),
+      radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.35), transparent 45%),
+      radial-gradient(circle at 50% 100%, rgba(59, 130, 246, 0.45), transparent 40%),
+      #07081a;
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -28,277 +28,306 @@
   }
 
   h1 {
-    font-size: 34px;
-    letter-spacing: 4px;
+    font-size: 36px;
+    letter-spacing: 6px;
     color: #fff;
     text-shadow:
-      0 0 10px #a78bfa,
-      0 0 20px #ec4899,
-      0 0 40px #8b5cf6;
-    margin-bottom: 28px;
+      0 0 12px #c084fc,
+      0 0 24px #ec4899,
+      0 0 48px #7c3aed;
+    margin-bottom: 30px;
   }
 
-  .container {
-    background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-    border: 1px solid rgba(255,255,255,0.12);
-    padding: 28px;
-    border-radius: 24px;
+  .panel {
+    background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03));
+    border: 1px solid rgba(255,255,255,0.14);
+    padding: 30px;
+    border-radius: 26px;
     width: 100%;
-    max-width: 540px;
+    max-width: 560px;
     box-shadow:
-      0 0 30px rgba(139, 92, 246, 0.35),
-      0 10px 40px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
+      0 0 40px rgba(124, 58, 237, 0.45),
+      0 15px 45px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
   }
 
   #questionInput {
     width: 100%;
-    padding: 14px 16px;
-    border-radius: 14px;
-    border: 1px solid rgba(255,255,255,0.15);
-    background: rgba(255,255,255,0.06);
+    padding: 16px 18px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.07);
     color: #fff;
     font-size: 16px;
     outline: none;
-    margin-bottom: 18px;
-    transition: 0.25s;
+    margin-bottom: 20px;
+    transition: 0.3s;
   }
 
   #questionInput:focus {
-    border-color: #a78bfa;
-    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.35);
+    border-color: #c084fc;
+    box-shadow: 0 0 0 4px rgba(192, 132, 252, 0.35);
   }
 
   #questionInput::placeholder {
-    color: #a5b4fc;
+    color: #c4b5fd;
   }
 
-  .btns {
+  .row {
     display: flex;
     gap: 14px;
   }
 
   button {
     flex: 1;
-    padding: 14px;
+    padding: 15px;
     border: none;
-    border-radius: 14px;
+    border-radius: 16px;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    transition: 0.2s;
-    color: white;
+    color: #fff;
+    transition: 0.25s;
   }
 
   #askBtn {
-    background: linear-gradient(135deg, #8b5cf6, #ec4899);
-    box-shadow: 0 10px 25px rgba(139, 92, 246, 0.45);
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    box-shadow: 0 12px 30px rgba(168, 85, 247, 0.55);
   }
 
   #askBtn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 15px 30px rgba(236, 72, 153, 0.55);
+    transform: translateY(-3px);
+    box-shadow: 0 18px 36px rgba(236, 72, 153, 0.65);
+  }
+
+  #askBtn:disabled {
+    background: #475569;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
   }
 
   #resetBtn {
     background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.16);
   }
 
   #resetBtn:hover {
-    background: rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.16);
   }
 
-  #hint {
-    margin-top: 20px;
+  #status {
+    margin-top: 22px;
     text-align: center;
-    min-height: 24px;
+    min-height: 26px;
     color: #ddd6fe;
     font-size: 15px;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
   }
 
   #stage {
     position: relative;
     width: 100%;
-    max-width: 720px;
-    height: 380px;
-    margin-top: 24px;
-    border-radius: 24px;
+    max-width: 760px;
+    height: 420px;
+    margin-top: 26px;
+    border-radius: 26px;
     background:
-      radial-gradient(circle at center, rgba(99, 102, 241, 0.25), transparent 60%),
-      rgba(10, 12, 30, 0.9);
-    border: 1px solid rgba(255,255,255,0.1);
+      radial-gradient(circle at center, rgba(99, 102, 241, 0.3), transparent 55%),
+      rgba(10, 12, 35, 0.92);
+    border: 1px solid rgba(255,255,255,0.12);
     overflow: hidden;
-    box-shadow: inset 0 0 60px rgba(139, 92, 246, 0.25);
+    box-shadow: inset 0 0 80px rgba(168, 85, 247, 0.35);
   }
 
   #stage::before {
     content: "";
     position: absolute;
     inset: 0;
-    background:
-      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px) 0 0 / 40px 40px,
-      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px) 0 0 / 40px 40px;
-    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 44px 44px;
     mask-image: radial-gradient(circle at center, black 40%, transparent 75%);
+    pointer-events: none;
   }
 
-  .center-glow {
+  .particle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 10px #c084fc, 0 0 22px #ec4899;
+    pointer-events: none;
+    animation: particleRise linear infinite;
+  }
+
+  .scan {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #c084fc, #ec4899, #c084fc, transparent);
+    box-shadow: 0 0 18px #c084fc;
+    animation: scanMove 2.4s linear infinite;
+    opacity: 0;
+  }
+
+  .orb {
     position: absolute;
     left: 50%;
-    top: 50%;
-    width: 120px;
-    height: 120px;
+    top: 42%;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
-    background: radial-gradient(circle, #fff 0%, #a78bfa 25%, #ec4899 50%, transparent 70%);
-    transform: translate(-50%, -50%) scale(0);
+    background:
+      radial-gradient(circle at 35% 30%, #fff 0%, #f0abfc 20%, #a855f7 45%, #1e1b4b 70%, transparent 80%);
+    transform: translate(-50%, -50%) scale(0.6);
+    box-shadow:
+      0 0 40px #a855f7,
+      0 0 80px #ec4899,
+      inset 0 0 30px rgba(255,255,255,0.4);
     opacity: 0;
-    animation: centerGlow 0.9s ease-out forwards;
+    animation: orbOpen 1.6s ease-out forwards;
     pointer-events: none;
   }
 
   .ring {
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 42%;
     border-radius: 50%;
-    border: 2px solid rgba(167, 139, 250, 0.8);
-    transform: translate(-50%, -50%) scale(0.2);
-    opacity: 0;
-    animation: ringExpand 1.4s ease-out forwards;
-    pointer-events: none;
-  }
-
-  .ring.pink {
-    border-color: rgba(236, 72, 153, 0.8);
-    animation-delay: 0.15s;
-  }
-
-  .ring.blue {
-    border-color: rgba(56, 189, 248, 0.8);
-    animation-delay: 0.3s;
-  }
-
-  .char {
-    position: absolute;
-    font-size: 28px;
-    font-weight: 700;
-    color: #fff;
-    text-shadow:
-      0 0 8px #a78bfa,
-      0 0 16px #ec4899,
-      0 0 24px #8b5cf6;
-    white-space: nowrap;
-    left: 50%;
-    top: 50%;
+    border: 2px solid rgba(192, 132, 252, 0.7);
     transform: translate(-50%, -50%) scale(0.3);
-    animation: charFly 1.8s cubic-bezier(.2,.7,.3,1) forwards;
-  }
-
-  .particle {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #fde68a;
-    box-shadow: 0 0 12px #f472b6, 0 0 24px #a78bfa;
+    opacity: 0;
+    animation: ringPulse 1.8s ease-out forwards;
     pointer-events: none;
-    animation: particleFly 2s ease-out forwards;
   }
 
-  .trail {
-    position: absolute;
-    height: 2px;
-    border-radius: 2px;
-    background: linear-gradient(90deg, rgba(255,255,255,0.6), transparent);
-    transform-origin: left center;
-    pointer-events: none;
-    animation: trailFade 1.6s linear forwards;
-  }
-
-  .answer-text {
+  .answer-card {
     position: absolute;
     left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) scale(0.5);
+    top: 42%;
+    transform: translate(-50%, -50%) scale(0.55);
+    width: 86%;
+    max-width: 520px;
+    padding: 26px 30px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(88, 28, 135, 0.96));
+    border: 1px solid rgba(255,255,255,0.25);
+    box-shadow:
+      0 0 40px rgba(168, 85, 247, 0.6),
+      0 20px 60px rgba(0, 0, 0, 0.7);
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    animation: cardReveal 2s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+
+  .answer-card h2 {
+    font-size: 13px;
+    letter-spacing: 6px;
+    color: #c4b5fd;
+    margin-bottom: 14px;
+  }
+
+  .answer-card p {
     font-size: 22px;
     font-weight: 700;
-    letter-spacing: 2px;
+    line-height: 1.5;
     color: #fff;
-    text-align: center;
-    padding: 18px 28px;
-    border-radius: 16px;
-    background: linear-gradient(135deg, rgba(139,92,246,0.35), rgba(236,72,153,0.35));
-    border: 1px solid rgba(255,255,255,0.25);
-    opacity: 0;
-    animation: answerShow 2s ease-out forwards;
-    pointer-events: none;
+    text-shadow: 0 0 12px rgba(255,255,255,0.4);
+    min-height: 3.3em;
   }
 
-  @keyframes centerGlow {
+  .answer-card.gold {
+    border-color: #fde68a;
+    box-shadow:
+      0 0 50px rgba(253, 224, 71, 0.7),
+      0 0 100px rgba(236, 72, 153, 0.45);
+  }
+
+  .answer-card.blue {
+    border-color: #38bdf8;
+    box-shadow:
+      0 0 50px rgba(56, 189, 248, 0.7),
+      0 0 100px rgba(59, 130, 246, 0.45);
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 10px;
+    background: #c084fc;
+    margin-left: 4px;
+    animation: blink 0.7s infinite;
+  }
+
+  @keyframes particleRise {
+    0% {
+      transform: translateY(0) scale(0.4);
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-420px) scale(1);
+      opacity: 0;
+    }
+  }
+
+  @keyframes scanMove {
+    0% { top: 0; opacity: 0; }
+    15% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  @keyframes orbOpen {
     0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0; }
     30% { opacity: 1; }
-    100% { transform: translate(-50%, -50%) scale(1.4); opacity: 0; }
-  }
-
-  @keyframes ringExpand {
-    0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0.9; }
-    100% { transform: translate(-50%, -50%) scale(2.4); opacity: 0; }
-  }
-
-  @keyframes charFly {
-    0% {
-      transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
-      opacity: 0;
-    }
-    20% {
-      opacity: 1;
-    }
-    100% {
-      transform: translate(var(--tx), var(--ty)) scale(1.1) rotate(var(--rot));
-      opacity: 0;
-    }
-  }
-
-  @keyframes particleFly {
-    0% {
-      transform: translate(-50%, -50%) scale(0.5);
-      opacity: 0;
-    }
-    20% {
-      opacity: 1;
-    }
-    100% {
-      transform: translate(var(--px), var(--py)) scale(0.2);
-      opacity: 0;
-    }
-  }
-
-  @keyframes trailFade {
-    0% { opacity: 0.8; }
-    100% { opacity: 0; }
-  }
-
-  @keyframes answerShow {
-    0% { transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
-    40% { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
-    70% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    60% { transform: translate(-50%, -50%) scale(1.15); }
     100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+  }
+
+  @keyframes ringPulse {
+    0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0.9; }
+    100% { transform: translate(-50%, -50%) scale(2.6); opacity: 0; }
+  }
+
+  @keyframes cardReveal {
+    0% { transform: translate(-50%, -50%) scale(0.4) rotate(-6deg); opacity: 0; }
+    40% { transform: translate(-50%, -50%) scale(1.12) rotate(2deg); opacity: 1; }
+    55% { transform: translate(-50%, -50%) scale(0.97) rotate(-1deg); }
+    70% { transform: translate(-50%, -50%) scale(1.04) rotate(1deg); }
+    100% { transform: translate(-50%, -50%) scale(1) rotate(0); opacity: 1; }
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    20% { transform: translate(-51%, -49%) scale(1.03); }
+    40% { transform: translate(-49%, -51%) scale(1.02); }
+    60% { transform: translate(-50%, -48%) scale(1.04); }
+    80% { transform: translate(-49%, -50%) scale(1.02); }
   }
 </style>
 </head>
 
 <body>
-  <h1>🔮 Answer Oracle</h1>
+  <h1>🔮 MYSTIC ORACLE</h1>
 
-  <div class="container">
-    <input id="questionInput" placeholder="Type your question here..." />
-    <div class="btns">
-      <button id="askBtn">Ask & Reveal</button>
+  <div class="panel">
+    <input id="questionInput" placeholder="Ask the oracle anything..." />
+    <div class="row">
+      <button id="askBtn">Reveal Answer</button>
       <button id="resetBtn">Reset</button>
     </div>
-    <div id="hint"></div>
+    <div id="status"></div>
   </div>
 
   <div id="stage"></div>
@@ -307,126 +336,162 @@
   const input = document.getElementById("questionInput");
   const askBtn = document.getElementById("askBtn");
   const resetBtn = document.getElementById("resetBtn");
-  const hint = document.getElementById("hint");
+  const status = document.getElementById("status");
   const stage = document.getElementById("stage");
 
   const answers = [
-    "Yes, the odds are in your favour.",
-    "Not right now, wait a little longer.",
-    "Trust your intuition, it will guide you.",
-    "The path ahead is full of surprises.",
-    "It may be harder than you expect.",
-    "Absolutely, keep moving forward.",
-    "Uncertain at this moment, try again later.",
-    "What you seek will come in time.",
-    "Do not hesitate, take the chance.",
-    "Better to hold back for now."
+    { text: "Yes, the universe aligns in your favour.", type: "gold" },
+    { text: "Not yet. Wait for the right moment.", type: "blue" },
+    { text: "Trust your intuition—it will guide you home.", type: "gold" },
+    { text: "The path is uncertain. Ask again later.", type: "blue" },
+    { text: "Go forward. This choice carries power.", type: "gold" },
+    { text: "It is wiser to pause and reflect.", type: "blue" },
+    { text: "Something surprising is about to happen.", type: "gold" },
+    { text: "Be patient. Results take time to ripen.", type: "blue" },
+    { text: "You already know the answer you seek.", type: "gold" },
+    { text: "Let go of fear. The way is opening.", type: "gold" }
   ];
 
   askBtn.addEventListener("click", () => {
     const question = input.value.trim();
 
     if (!question) {
-      hint.textContent = "Please type your question first!";
+      status.textContent = "Please ask a question first.";
       return;
     }
 
-    hint.textContent = "The oracle is thinking...";
+    status.textContent = "The oracle is decoding...";
+    askBtn.disabled = true;
     stage.innerHTML = "";
 
-    setTimeout(() => {
-      const answer = answers[Math.floor(Math.random() * answers.length)];
-      startComplexEffect(answer);
-      hint.textContent = "✨ " + answer;
-      input.value = "";
-    }, 700);
+    startMysticSequence();
   });
 
   resetBtn.addEventListener("click", () => {
     input.value = "";
-    hint.textContent = "";
+    status.textContent = "";
     stage.innerHTML = "";
+    askBtn.disabled = false;
   });
 
-  function startComplexEffect(answer) {
+  function startMysticSequence() {
     const rect = stage.getBoundingClientRect();
     const cx = rect.width / 2;
     const cy = rect.height / 2;
 
-    // 1. 中心光晕
-    const glow = document.createElement("div");
-    glow.className = "center-glow";
-    stage.appendChild(glow);
-
-    // 2. 多层扩散光圈
-    for (let i = 0; i < 3; i++) {
-      const ring = document.createElement("div");
-      ring.className = "ring " + (i === 1 ? "pink" : i === 2 ? "blue" : "");
-      ring.style.width = (120 + i * 70) + "px";
-      ring.style.height = (120 + i * 70) + "px";
-      stage.appendChild(ring);
+    // 1. 背景粒子雨
+    for (let i = 0; i < 30; i++) {
+      setTimeout(() => spawnParticle(cx, cy), i * 120);
     }
 
-    // 3. 文字字符飞散
-    const chars = answer.split("");
-    chars.forEach((ch, i) => {
-      const span = document.createElement("span");
-      span.className = "char";
-      span.textContent = ch === " " ? "\u00A0" : ch;
+    // 2. 扫描线
+    const scan = document.createElement("div");
+    scan.className = "scan";
+    stage.appendChild(scan);
 
-      const angle = (Math.PI * 2 / chars.length) * i + Math.random() * 0.5;
-      const dist = 110 + Math.random() * 160;
-      const tx = Math.cos(angle) * dist;
-      const ty = Math.sin(angle) * dist;
-      const rot = (Math.random() * 720 - 360) + "deg";
-
-      span.style.setProperty("--tx", tx + "px");
-      span.style.setProperty("--ty", ty + "px");
-      span.style.setProperty("--rot", rot);
-      stage.appendChild(span);
-    });
-
-    // 4. 彩色粒子爆发
-    const colors = ["#f472b6", "#a78bfa", "#38bdf8", "#fde68a", "#34d399"];
-    for (let i = 0; i < 40; i++) {
-      const p = document.createElement("div");
-      p.className = "particle";
-
-      const angle = Math.random() * Math.PI * 2;
-      const dist = 140 + Math.random() * 200;
-      const px = Math.cos(angle) * dist;
-      const py = Math.sin(angle) * dist;
-
-      p.style.setProperty("--px", px + "px");
-      p.style.setProperty("--py", py + "px");
-      p.style.background = colors[Math.floor(Math.random() * colors.length)];
-      p.style.left = cx + "px";
-      p.style.top = cy + "px";
-      stage.appendChild(p);
-    }
-
-    // 5. 拖光线条
-    for (let i = 0; i < 14; i++) {
-      const trail = document.createElement("div");
-      trail.className = "trail";
-
-      const angle = (Math.PI * 2 / 14) * i;
-      const length = 90 + Math.random() * 120;
-
-      trail.style.width = length + "px";
-      trail.style.left = cx + "px";
-      trail.style.top = cy + "px";
-      trail.style.transform = `rotate(${angle}rad)`;
-      stage.appendChild(trail);
-    }
-
-    // 6. 最终答案卡片出现
+    // 3. 占卜水晶球打开
     setTimeout(() => {
-      const box = document.createElement("div");
-      box.className = "answer-text";
-      box.textContent = answer;
-      stage.appendChild(box);
-    }, 900);
+      const orb = document.createElement("div");
+      orb.className = "orb";
+      stage.appendChild(orb);
+
+      for (let i = 1; i <= 4; i++) {
+        const ring = document.createElement("div");
+        ring.className = "ring";
+        ring.style.width = (90 + i * 50) + "px";
+        ring.style.height = (90 + i * 50) + "px";
+        ring.style.animationDelay = (i * 0.18) + "s";
+        stage.appendChild(ring);
+      }
+    }, 400);
+
+    // 4. 随机抽取答案并打字显示
+    setTimeout(() => {
+      const answer = answers[Math.floor(Math.random() * answers.length)];
+      showAnswerCard(answer);
+    }, 1600);
+  }
+
+  function spawnParticle(cx, cy) {
+    const p = document.createElement("div");
+    p.className = "particle";
+
+    p.style.left = Math.random() * 760 + "px";
+    p.style.top = 420 + "px";
+    p.style.animationDuration = (2 + Math.random() * 2) + "s";
+    p.style.animationDelay = "0s";
+
+    stage.appendChild(p);
+
+    setTimeout(() => p.remove(), 4000);
+  }
+
+  function showAnswerCard(answer) {
+    const card = document.createElement("div");
+    card.className = "answer-card " + answer.type;
+    card.innerHTML = `
+      <h2>THE ORACLE SAYS</h2>
+      <p id="answerText"></p>
+    `;
+    stage.appendChild(card);
+
+    const answerText = document.getElementById("answerText");
+    let i = 0;
+
+    function typeNextChar() {
+      if (i < answer.text.length) {
+        answerText.innerHTML = answer.text.substring(0, i + 1) + `<span class="cursor"></span>`;
+        i++;
+        setTimeout(typeNextChar, 90);
+      } else {
+        answerText.innerHTML = answer.text;
+        status.textContent = "✨ " + answer.text;
+        askBtn.disabled = false;
+
+        // 卡片轻微震动
+        card.style.animation = "none";
+        void card.offsetWidth;
+        card.style.animation = "shake 0.6s ease-in-out";
+
+        // 最终爆发粒子
+        burstParticles();
+      }
+    }
+
+    setTimeout(typeNextChar, 400);
+  }
+
+  function burstParticles() {
+    const rect = stage.getBoundingClientRect();
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+
+    const colors = ["#fde68a", "#c084fc", "#38bdf8", "#f472b6", "#fff"];
+
+    for (let i = 0; i < 50; i++) {
+      setTimeout(() => {
+        const p = document.createElement("div");
+        p.className = "particle";
+        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+        p.style.boxShadow = `0 0 12px ${p.style.background}`;
+
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 180 + Math.random() * 260;
+
+        p.style.left = cx + "px";
+        p.style.top = cy + "px";
+
+        p.style.animation = "none";
+        void p.offsetWidth;
+
+        p.style.animation = "particleBurst 1.6s ease-out forwards";
+        p.style.setProperty("--tx", Math.cos(angle) * dist + "px");
+        p.style.setProperty("--ty", Math.sin(angle) * dist + "px");
+
+        stage.appendChild(p);
+        setTimeout(() => p.remove(), 1700);
+      }, i * 40);
+    }
   }
 </script>
 </body>
