@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>文字许愿机</title>
+<title>Wish Machine</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
 body{
@@ -60,18 +60,18 @@ button{
   animation:floatUp 4s ease-out forwards;
 }
 @keyframes floatUp{
-  0{bottom:0;opacity:1;transform:scale(1)}
-  100{bottom:320px;opacity:0;transform:scale(1.2)}
+  0{bottom:0;opacity:1;transform:translateX(0)}
+  100{bottom:100%;opacity:0;transform:translateX(0)}
 }
 </style>
 </head>
 <body>
-<h1>✨ 文字许愿机</h1>
+<h1>✨ Wish Machine</h1>
 <div class="container">
-  <input id="wishInput" placeholder="在这里写下你的心愿……">
+  <input id="wishInput" placeholder="Type your wish here...">
   <div class="btns">
-    <button id="sendBtn">发送愿望</button>
-    <button id="resetBtn">重置</button>
+    <button id="sendBtn">Send Wish</button>
+    <button id="resetBtn">Reset</button>
   </div>
   <div id="tip"></div>
 </div>
@@ -85,21 +85,20 @@ const tip = document.getElementById('tip');
 const box = document.getElementById('canvasBox');
 
 const replies = [
-  "愿这份心愿慢慢开花。",
-  "慢慢来，一切都会如期而至。",
-  "心怀期待，本身就是一件美好的事。",
-  "把愿望交给星光吧。",
-  "祝你所愿，皆有回响。"
+  "May your wish come true soon.",
+  "Take it easy, good things are coming.",
+  "Be patient, everything will work out.",
+  "Hope your heart stays gentle and bright.",
+  "Wishes are seeds; give them time to grow."
 ];
 
 sendBtn.onclick = ()=>{
   const wish = input.value.trim();
-  // 异常处理：空输入判断
   if(!wish){
-    tip.textContent = "请不要发送空白愿望哦";
+    tip.textContent = "Please write your wish first!";
     return;
   }
-  tip.textContent = replies[Math.floor(Math.random()*replies.length)];
+  tip.textContent = replies[Math.floor(Math.random() * replies.length)];
   createParticle(wish);
   input.value = "";
 }
@@ -114,10 +113,12 @@ function createParticle(text){
   const p = document.createElement('div');
   p.className = "particle";
   p.innerText = text;
-  p.style.left = Math.random()*(box.offsetWidth - 120)+"px";
+  const maxLeft = box.clientWidth - 100;
+  p.style.left = Math.random() * maxLeft + "px";
   box.appendChild(p);
   setTimeout(()=>p.remove(),4000);
 }
 </script>
 </body>
 </html>
+
